@@ -1,32 +1,143 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { motion } from "framer-motion";
-import "tailwindcss/tailwind.css";
+
+const styles = `
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+  }
+  .navbar {
+    background-color: #1e3a8a;
+    padding: 1rem;
+    color: white;
+  }
+  .navbar .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  .navbar .nav-links a {
+    margin: 0 1rem;
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .navbar .nav-links a:hover {
+    color: #a5b4fc;
+  }
+  .home, .players, .teams, .about, .contact {
+    padding: 2rem;
+  }
+  .title {
+    font-size: 2.5rem;
+    color: #1e3a8a;
+  }
+  .subtitle {
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+  }
+  .links a {
+    margin: 0 1rem;
+    color: #1e40af;
+    text-decoration: underline;
+    transition: color 0.3s;
+  }
+  .links a:hover {
+    color: #4f46e5;
+  }
+  .image-container img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 2rem;
+  }
+  .player-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .player-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    text-align: center;
+    transition: transform 0.3s;
+  }
+  .player-card img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  .team-item {
+    font-size: 1.2rem;
+    padding: 0.5rem 0;
+  }
+  .section-title {
+    font-size: 2rem;
+    color: #1e3a8a;
+    margin-bottom: 1rem;
+  }
+  .contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  input, textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  .submit-button {
+    background-color: #1e40af;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .submit-button:hover {
+    background-color: #3b82f6;
+  }
+`;
 
 const Home = () => (
-  <div className="p-8 text-center">
+  <div className="home">
     <motion.h1
-      className="text-4xl font-bold mb-4"
+      className="title"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
       Welcome to the Cricket World
     </motion.h1>
-    <p className="text-lg">Explore details about international cricket players and teams.</p>
-    <div className="mt-8">
-      <Link to="/players" className="text-blue-500 underline mx-4">Players</Link>
-      <Link to="/teams" className="text-blue-500 underline mx-4">Teams</Link>
-      <Link to="/about" className="text-blue-500 underline mx-4">About</Link>
+    <p className="subtitle">Explore details about international cricket players and teams.</p>
+    <div className="links">
+      <Link to="/players">Players</Link>
+      <Link to="/teams">Teams</Link>
+      <Link to="/about">About</Link>
+    </div>
+    <div className="image-container">
+      <img src="https://www.cricbuzz.com/a/img/v1/1920x1080/i1/c207851/cricket-ground.jpg" alt="Cricket Ground" />
     </div>
   </div>
 );
 
 const Players = () => (
-  <div className="p-8">
-    <h2 className="text-3xl font-bold mb-4">International Players</h2>
+  <div className="players">
+    <h2 className="section-title">International Players</h2>
     <motion.div
-      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      className="player-grid"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -34,11 +145,12 @@ const Players = () => (
       {["Virat Kohli", "Steve Smith", "Kane Williamson", "Joe Root", "Babar Azam"].map((player, index) => (
         <motion.div
           key={index}
-          className="p-4 bg-white rounded-xl shadow-lg hover:shadow-2xl cursor-pointer"
+          className="player-card"
           whileHover={{ scale: 1.05 }}
         >
-          <h3 className="text-xl font-semibold">{player}</h3>
-          <p className="text-gray-600">Click for more details.</p>
+          <img src={`https://via.placeholder.com/150?text=${player.replace(/ /g, '+')}`} alt={player} />
+          <h3>{player}</h3>
+          <p>Click for more details.</p>
         </motion.div>
       ))}
     </motion.div>
@@ -46,45 +158,44 @@ const Players = () => (
 );
 
 const Teams = () => (
-  <div className="p-8">
-    <h2 className="text-3xl font-bold mb-4">International Teams</h2>
-    <ul className="list-disc ml-8">
+  <div className="teams">
+    <h2 className="section-title">International Teams</h2>
+    <ul>
       {["India", "Australia", "England", "New Zealand", "Pakistan"].map((team, index) => (
-        <li key={index} className="text-lg my-2">{team}</li>
+        <li key={index} className="team-item">{team}</li>
       ))}
     </ul>
   </div>
 );
 
 const About = () => (
-  <div className="p-8">
-    <h2 className="text-3xl font-bold mb-4">About Cricket</h2>
+  <div className="about">
+    <h2 className="section-title">About Cricket</h2>
     <p>
       Cricket is a bat-and-ball game played between two teams of eleven players on a field at the center of which is a 22-yard pitch.
       It has a rich history and is one of the most popular sports worldwide.
     </p>
+    <img src="https://www.cricbuzz.com/a/img/v1/595x396/i1/c207854/cricket-history.jpg" alt="Cricket History" />
   </div>
 );
 
 const Contact = () => (
-  <div className="p-8">
-    <h2 className="text-3xl font-bold mb-4">Contact Us</h2>
-    <form className="max-w-lg mx-auto">
-      <div className="mb-4">
-        <label className="block text-gray-700">Name</label>
-        <input type="text" className="w-full p-2 border border-gray-300 rounded-md" />
+  <div className="contact">
+    <h2 className="section-title">Contact Us</h2>
+    <form className="contact-form">
+      <div className="form-group">
+        <label>Name</label>
+        <input type="text" />
       </div>
-      <div className="mb-4">
-        <label className="block text-gray-700">Email</label>
-        <input type="email" className="w-full p-2 border border-gray-300 rounded-md" />
+      <div className="form-group">
+        <label>Email</label>
+        <input type="email" />
       </div>
-      <div className="mb-4">
-        <label className="block text-gray-700">Message</label>
-        <textarea className="w-full p-2 border border-gray-300 rounded-md"></textarea>
+      <div className="form-group">
+        <label>Message</label>
+        <textarea></textarea>
       </div>
-      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-        Submit
-      </button>
+      <button type="submit" className="submit-button">Submit</button>
     </form>
   </div>
 );
@@ -92,15 +203,16 @@ const Contact = () => (
 const App = () => {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-100">
-        <nav className="bg-blue-600 p-4 text-white">
-          <div className="container mx-auto flex justify-between">
-            <Link to="/" className="font-bold text-xl">Cricket World</Link>
-            <div>
-              <Link to="/players" className="mx-2">Players</Link>
-              <Link to="/teams" className="mx-2">Teams</Link>
-              <Link to="/about" className="mx-2">About</Link>
-              <Link to="/contact" className="mx-2">Contact</Link>
+      <style>{styles}</style>
+      <div className="app">
+        <nav className="navbar">
+          <div className="container">
+            <Link to="/" className="logo">Cricket World</Link>
+            <div className="nav-links">
+              <Link to="/players">Players</Link>
+              <Link to="/teams">Teams</Link>
+              <Link to="/about">About</Link>
+              <Link to="/contact">Contact</Link>
             </div>
           </div>
         </nav>
