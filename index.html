@@ -1,0 +1,119 @@
+import React from "react";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { motion } from "framer-motion";
+import "tailwindcss/tailwind.css";
+
+const Home = () => (
+  <div className="p-8 text-center">
+    <motion.h1
+      className="text-4xl font-bold mb-4"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      Welcome to the Cricket World
+    </motion.h1>
+    <p className="text-lg">Explore details about international cricket players and teams.</p>
+    <div className="mt-8">
+      <Link to="/players" className="text-blue-500 underline mx-4">Players</Link>
+      <Link to="/teams" className="text-blue-500 underline mx-4">Teams</Link>
+      <Link to="/about" className="text-blue-500 underline mx-4">About</Link>
+    </div>
+  </div>
+);
+
+const Players = () => (
+  <div className="p-8">
+    <h2 className="text-3xl font-bold mb-4">International Players</h2>
+    <motion.div
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      {["Virat Kohli", "Steve Smith", "Kane Williamson", "Joe Root", "Babar Azam"].map((player, index) => (
+        <motion.div
+          key={index}
+          className="p-4 bg-white rounded-xl shadow-lg hover:shadow-2xl cursor-pointer"
+          whileHover={{ scale: 1.05 }}
+        >
+          <h3 className="text-xl font-semibold">{player}</h3>
+          <p className="text-gray-600">Click for more details.</p>
+        </motion.div>
+      ))}
+    </motion.div>
+  </div>
+);
+
+const Teams = () => (
+  <div className="p-8">
+    <h2 className="text-3xl font-bold mb-4">International Teams</h2>
+    <ul className="list-disc ml-8">
+      {["India", "Australia", "England", "New Zealand", "Pakistan"].map((team, index) => (
+        <li key={index} className="text-lg my-2">{team}</li>
+      ))}
+    </ul>
+  </div>
+);
+
+const About = () => (
+  <div className="p-8">
+    <h2 className="text-3xl font-bold mb-4">About Cricket</h2>
+    <p>
+      Cricket is a bat-and-ball game played between two teams of eleven players on a field at the center of which is a 22-yard pitch.
+      It has a rich history and is one of the most popular sports worldwide.
+    </p>
+  </div>
+);
+
+const Contact = () => (
+  <div className="p-8">
+    <h2 className="text-3xl font-bold mb-4">Contact Us</h2>
+    <form className="max-w-lg mx-auto">
+      <div className="mb-4">
+        <label className="block text-gray-700">Name</label>
+        <input type="text" className="w-full p-2 border border-gray-300 rounded-md" />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Email</label>
+        <input type="email" className="w-full p-2 border border-gray-300 rounded-md" />
+      </div>
+      <div className="mb-4">
+        <label className="block text-gray-700">Message</label>
+        <textarea className="w-full p-2 border border-gray-300 rounded-md"></textarea>
+      </div>
+      <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+        Submit
+      </button>
+    </form>
+  </div>
+);
+
+const App = () => {
+  return (
+    <Router>
+      <div className="min-h-screen bg-gray-100">
+        <nav className="bg-blue-600 p-4 text-white">
+          <div className="container mx-auto flex justify-between">
+            <Link to="/" className="font-bold text-xl">Cricket World</Link>
+            <div>
+              <Link to="/players" className="mx-2">Players</Link>
+              <Link to="/teams" className="mx-2">Teams</Link>
+              <Link to="/about" className="mx-2">About</Link>
+              <Link to="/contact" className="mx-2">Contact</Link>
+            </div>
+          </div>
+        </nav>
+        <Switch>
+          <Route path="/players" component={Players} />
+          <Route path="/teams" component={Teams} />
+          <Route path="/about" component={About} />
+          <Route path="/contact" component={Contact} />
+          <Route path="/" component={Home} />
+        </Switch>
+      </div>
+    </Router>
+  );
+};
+
+export default App;
